@@ -15,5 +15,17 @@
   "bugs": {
     "url": "https://github.com/weeenyoz/telepathy/issues"
   },
-  "homepage": "https://github.com/weeenyoz/telepathy#readme"
+  "homepage": "https://github.com/weeenyoz/telepathy#readme",
+  "dependencies": {
+    "typescript": "^3.8.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "prettier": "^1.19.1"
+  }
 }
