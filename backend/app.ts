@@ -6,6 +6,7 @@ import cors, { CorsOptions } from 'cors';
 import dotenv from 'dotenv';
 import passport, { Profile } from 'passport';
 import { Strategy } from 'passport-twitter';
+import errorHandler from './middleware/error';
 import userRoutes from './routes/User';
 import tweetRoutes from './routes/Tweets';
 
@@ -51,6 +52,7 @@ app.use(
         saveUninitialized: true,
     }),
 );
+app.use(errorHandler);
 
 app.use('/api/user', userRoutes);
 app.use('/api/tweeter', tweetRoutes);
