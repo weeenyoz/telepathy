@@ -1,8 +1,10 @@
 import express from 'express';
-import { redirectToHome } from '../controllers/User';
+import { redirectToHome, getUser } from '../controllers/User';
 import passport from 'passport';
 
 const router = express.Router();
+
+router.get('/', getUser);
 
 router.get('/login', passport.authenticate('twitter'));
 

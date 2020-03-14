@@ -46,7 +46,7 @@ const app = express();
 
 const corsOptions: CorsOptions = {
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:3000/',
 };
 
 app.use(cors(corsOptions));
@@ -55,9 +55,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(
     session({
-        secret: 'secret',
-        resave: true,
-        saveUninitialized: true,
+        name: process.env.SESS_NAME as string,
+        secret: process.env.SESS_SECRET as string,
+        resave: false,
+        saveUninitialized: false,
     }),
 );
 app.use(errorHandler);
