@@ -15,7 +15,7 @@ function App() {
                     <Switch>
                         <Route exact path="/" render={props => <LoginPage {...props} />} />
                         <Layout>
-                            <Route exact path="/home/:id" render={props => <Home {...props} />} />
+                            <Route exact path="/home/" render={props => <Home {...props} />} />
                         </Layout>
                     </Switch>
                 </Router>
