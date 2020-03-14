@@ -1,41 +1,19 @@
-import Twit from 'twit';
 import express from 'express';
-import dotenv from 'dotenv';
-import TwitterConfig from '../config';
-
-dotenv.config();
+import { postTweet, getTimeline } from '../controllers/Tweets';
 
 const router = express.Router();
 
-router.get('/timeline', async (req, res) => {
-    const T = new Twit(TwitterConfig);
+/**
+ * GET /api/tweeter/timeline
+ * Get timeline
+ */
 
-    try {
-        const result = await T.get('statuses/home_timeline', {
-            count: 5,
-        });
+router.get('/timeline', getTimeline);
 
-        const tweet = (result.data as []).map((d: any) => {
-            const { id, text, entities, user } = d;
+/**
+ * POST /api/tweeter
+ */
 
-            return {
-                id,
-                title: text,
-                url: entities.urls[0].url,
-                user: {
-                    name: user.name,
-                    screenName: user.screen_name,
-                    description: user.description,
-                    url: user.url,
-                    profileImageUrl: user.profile_image_url,
-                },
-            };
-        });
-
-        res.status(200).json(tweet);
-    } catch (error) {
-        // next(error);
-    }
-});
+router.post('/', postTweet);
 
 export default router;

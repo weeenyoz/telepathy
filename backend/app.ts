@@ -6,7 +6,7 @@ import cors, { CorsOptions } from 'cors';
 import dotenv from 'dotenv';
 import passport, { Profile } from 'passport';
 import { Strategy } from 'passport-twitter';
-import userRoutes from './routes/user';
+import userRoutes from './routes/User';
 import tweetRoutes from './routes/Tweets';
 
 dotenv.config();
@@ -53,6 +53,6 @@ app.use(
 );
 
 app.use('/api/user', userRoutes);
-app.use('/api/tweet', tweetRoutes);
+app.use('/api/tweeter', tweetRoutes);
 
 export default app;
