@@ -1,25 +1,35 @@
-import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
+import { Grid } from '@material-ui/core';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { RouteComponentProps } from 'react-router';
+import CardComponent from '../material-components/Card/CardComponent';
+import { TweetInterface } from '../typings/Tweet';
 
 type HomeProps = RouteComponentProps;
 
 const Home: React.FC<HomeProps> = (props: HomeProps) => {
-    const { params } = props.match;
+    const [timelime, setTimeline] = useState([]);
 
-    const geTimeline = async (userId: string) => {
-        console.log('in getTimeline');
-        const result = await axios.get(`/api/tweet/timeline`);
-        console.log('result; ', result);
-        return result;
+    const geTimeline = async () => {
+        const { data } = await axios.get(`/api/tweet/timeline`);
+
+        setTimeline(data);
     };
 
     useEffect(() => {
-        const { id } = params as any;
-        geTimeline(id);
+        geTimeline();
     }, []);
 
-    return <div>Home Component</div>;
+    return (
+        <React.Fragment>
+            <Grid container>
+                <Grid item xs={12}>
+                    {timelime &&
+                        timelime.map((d: TweetInterface) => <CardComponent key={d.id} data={d} />)}
+                </Grid>
+            </Grid>
+        </React.Fragment>
+    );
 };
 
 export default Home;
