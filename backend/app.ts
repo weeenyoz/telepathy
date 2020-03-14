@@ -1,7 +1,13 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import express from 'express';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import cors, { CorsOptions } from 'cors';
 import dotenv from 'dotenv';
-import passport from 'passport';
+import passport, { Profile } from 'passport';
 import { Strategy } from 'passport-twitter';
+import userRoutes from './routes/user';
+import tweetRoutes from './routes/Tweets';
 
 dotenv.config();
 
@@ -10,9 +16,10 @@ passport.use(
         {
             consumerKey: process.env.CONSUMER_KEY as string,
             consumerSecret: process.env.CONSUMER_SECRET as string,
-            callbackURL: 'http://localhost:3000/auth/twitter/return',
+            callbackURL: 'http://localhost:5000/api/user/auth/twitter/return',
+            includeEmail: true,
         },
-        (token: any, tokenSecret: any, profile: any, callback: any) => {
+        (token: any, tokenSecret: any, profile: Profile, callback: any) => {
             return callback(null, profile);
         },
     ),
@@ -28,7 +35,24 @@ passport.deserializeUser((obj: any, callback: any) => {
 
 const app = express();
 
+const corsOptions: CorsOptions = {
+    credentials: true,
+    origin: 'http://localhost:3000',
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
+app.use(
+    session({
+        secret: 'secret',
+        resave: true,
+        saveUninitialized: true,
+    }),
+);
+
+app.use('/api/user', userRoutes);
+app.use('/api/tweet', tweetRoutes);
 
 export default app;

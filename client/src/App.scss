@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+}
+
+.link-styles {
+  text-decoration: none;
+  color: #3EA0F4;
+  padding: 5px;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #3ea0f40a;
+  }
+}
