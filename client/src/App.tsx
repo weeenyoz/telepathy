@@ -1,10 +1,11 @@
 import React from 'react';
-import './App.scss';
 import { ThemeProvider } from '@material-ui/styles';
+import './App.scss';
 import theme from './theme';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LoginPage from './modules/Login/LoginPage';
 import Home from './modules/Home/HomeComponent';
+import Layout from './modules/Layout/LayoutComponent';
 
 function App() {
     return (
@@ -13,7 +14,9 @@ function App() {
                 <Router>
                     <Switch>
                         <Route exact path="/" render={props => <LoginPage {...props} />} />
-                        <Route exact path="/home/:id" render={props => <Home {...props} />} />
+                        <Layout>
+                            <Route exact path="/home/:id" render={props => <Home {...props} />} />
+                        </Layout>
                     </Switch>
                 </Router>
             </div>
