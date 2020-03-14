@@ -6,10 +6,19 @@ import cors, { CorsOptions } from 'cors';
 import dotenv from 'dotenv';
 import passport, { Profile } from 'passport';
 import { Strategy } from 'passport-twitter';
+import winston from 'winston';
+import errorHandler from './middleware/error';
 import userRoutes from './routes/User';
 import tweetRoutes from './routes/Tweets';
 
 dotenv.config();
+
+export const logger = winston.createLogger({
+    transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({ filename: 'logfile.log' }),
+    ],
+});
 
 passport.use(
     new Strategy(
@@ -51,6 +60,7 @@ app.use(
         saveUninitialized: true,
     }),
 );
+app.use(errorHandler);
 
 app.use('/api/user', userRoutes);
 app.use('/api/tweeter', tweetRoutes);
