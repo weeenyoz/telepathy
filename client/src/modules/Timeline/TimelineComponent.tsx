@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Box, Link, Typography } from '@material-ui/core';
-import { UserInterface, TweetInterface } from '../typings/Tweet';
+import { TweetInterface, TimelineUserInterface } from '../typings/Tweet';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface TimelineProps {
     data: {
-        user: UserInterface;
+        user: TimelineUserInterface;
         title: TweetInterface['title'];
     };
 }
