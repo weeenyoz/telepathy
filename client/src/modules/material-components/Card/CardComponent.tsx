@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
-/* eslint-disable @typescript-eslint/camelcase */
-import React, { useState, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Card, CardContent, Grid } from '@material-ui/core/';
 import AvatarComponent from '../Avatar/AvatarComponent';
-import { TweetInterface } from '../../typings/Tweet';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             margin: theme.spacing(0, 12.5, 5, 12.5),
+        },
+        timeline: {
             '&:hover': {
                 cursor: 'pointer',
                 backgroundColor: theme.palette.primary.light,
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface CardComponentProps {
-    data: TweetInterface;
+    data: { url?: string; image: string };
     children?: ReactNode;
 }
 
@@ -32,19 +31,21 @@ const CardComponent: React.FC<CardComponentProps> = (props: CardComponentProps) 
 
     const { data, children } = props;
 
-    const { user, url } = data;
+    const { url, image } = data;
 
     const cardActionHandler = () => {
-        window.open('')?.location.replace(url);
+        if (url) window.open('')?.location.replace(url);
     };
+
+    const classNames = url ? `${classes.root} ${classes.timeline}` : `${classes.root}`;
 
     return (
         <React.Fragment>
-            <Card className={classes.root}>
+            <Card className={classNames}>
                 <CardContent onClick={cardActionHandler}>
                     <Grid container>
                         <Grid item xs={1} className={classes.avatar}>
-                            <AvatarComponent src={user.profileImageUrl} />
+                            <AvatarComponent src={image} />
                         </Grid>
                         <Grid item xs={11}>
                             {children}
