@@ -61,9 +61,9 @@ app.use(
         saveUninitialized: false,
     }),
 );
-app.use(errorHandler);
 
 app.use('/api/user', userRoutes);
 app.use('/api/tweeter', tweetRoutes);
+app.use(errorHandler);
 
 export default app;

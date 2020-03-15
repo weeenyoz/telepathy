@@ -2,11 +2,10 @@ export interface TweetInterface {
     id: string;
     title: string;
     url: string;
-    user: UserInterface;
-    profile_image_url: string;
+    user: TimelineUserInterface;
 }
 
-export interface UserInterface {
+export interface TimelineUserInterface {
     name: string;
     screenName: string;
     description: string;
