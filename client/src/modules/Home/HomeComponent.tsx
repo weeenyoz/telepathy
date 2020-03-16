@@ -20,24 +20,17 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
             const { data } = await axios.get(`/api/tweeter/timeline`);
             setTimeline(data);
         } catch (error) {
-            console.log('error in Home Component - geTimeline: ', error.response);
-            // @TODO:
-            // return
+            console.error('error in Home Component - geTimeline: ', error);
         }
     };
 
     const getUser = async () => {
         try {
             const result = await axios.get('/api/user/');
-            const { token, user, expiresIn }: LoginResponseInterface = result.data;
-
-            if (user) {
-                setLoggedInUser(user);
-            }
+            const { user }: LoginResponseInterface = result.data;
+            setLoggedInUser(user);
         } catch (error) {
-            console.log('error in Home Component - getUser: ', error);
-            // @TODO:
-            // return
+            console.error('error in Home Component - getUser: ', error);
         }
     };
 
