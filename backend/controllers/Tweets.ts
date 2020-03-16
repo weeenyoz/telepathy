@@ -32,7 +32,7 @@ export const getTimeline: RequestHandler = async (req, res, next) => {
 
         res.status(200).json(timeline);
     } catch (error) {
-        console.log('error: ', error);
+        console.error(error);
         next(error);
     }
 };
@@ -46,7 +46,7 @@ export const postTweet: RequestHandler = async (req, res, next) => {
         const result: any = await T.post('statuses/update', tweet);
         result && res.status(204).send();
     } catch (error) {
-        console.log('error: ', error);
+        console.error(error);
         next(error);
     }
 };

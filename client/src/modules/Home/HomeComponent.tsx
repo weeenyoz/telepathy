@@ -34,6 +34,7 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
         }
     };
 
+    // @TODO: should be handleNotification
     const handleForm = (submitted: boolean) => {
         toggleIsFormSubmitted(submitted);
     };
