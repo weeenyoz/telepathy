@@ -42,7 +42,7 @@ const PostTweetForm: React.FC<PostTweetFormProps> = (props: PostTweetFormProps) 
                 formHandler && formHandler(true);
             }
         } catch (error) {
-            console.log('error &&', error);
+            console.error(error);
         }
     };
 
