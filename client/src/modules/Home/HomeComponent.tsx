@@ -21,6 +21,8 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
             setTimeline(data);
         } catch (error) {
             console.log('error in Home Component - geTimeline: ', error.response);
+            // @TODO:
+            // return
         }
     };
 
@@ -34,6 +36,8 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
             }
         } catch (error) {
             console.log('error in Home Component - getUser: ', error);
+            // @TODO:
+            // return
         }
     };
 
@@ -47,7 +51,9 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
     }, []);
 
     useEffect(() => {
-        geTimeline();
+        if (isFormSubmitted) {
+            geTimeline();
+        }
     }, [isFormSubmitted]);
 
     return (
