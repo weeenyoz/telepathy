@@ -62,7 +62,7 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            maxAge: 60000 * 60,
+            maxAge: parseInt(process.env.SESS_LIFETIME as string),
         },
     }),
 );
