@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express';
-import jwt, { Secret } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { UserInterface } from '../models/User';
 
@@ -10,21 +9,28 @@ export const getUser: RequestHandler = (req, res, next) => {
     const username = (req.session as any).passport.user.username;
     const displayName = (req.session as any).passport.user.displayName;
     const profileImageUrl = (req.session as any).passport.user.photos[0].value;
-    const expiresIn = (req.session as any).cookie.originalMaxAge;
 
     const user: UserInterface = { id: userId, username, displayName, profileImageUrl };
-
-    const token = jwt.sign({ user }, process.env.SECRET_KEY as Secret);
-
-    res.json({ token, user, expiresIn });
+    res.json({ user });
 };
 
-export const redirectToHome: RequestHandler = (req, res) => {
+export const loginRedirect: RequestHandler = (req, res) => {
     (req.session as any).cookie = {
-        originalMaxAge: parseInt(process.env.SESS_LIFETIME as string),
         sameSite: true,
         secure: false,
     };
 
     res.redirect(`http://localhost:3000/home/`);
+};
+
+export const userLogout: RequestHandler = (req, res, next) => {
+    if (req.session) {
+        req.session.destroy(function(err) {
+            if (err) {
+                return next(err);
+            } else {
+                return res.redirect('/');
+            }
+        });
+    }
 };
