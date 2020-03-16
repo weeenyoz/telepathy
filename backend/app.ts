@@ -2,6 +2,7 @@
 import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import cors, { CorsOptions } from 'cors';
 import dotenv from 'dotenv';
 import passport, { Profile } from 'passport';
@@ -52,6 +53,7 @@ const corsOptions: CorsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(passport.initialize());
 app.use(
     session({
@@ -59,6 +61,9 @@ app.use(
         secret: process.env.SESS_SECRET as string,
         resave: false,
         saveUninitialized: false,
+        cookie: {
+            maxAge: 60000 * 60,
+        },
     }),
 );
 
