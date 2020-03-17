@@ -17,6 +17,12 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: '0 20%',
             textAlign: 'left',
         },
+        navBar: {
+            boxShadow: 'unset',
+            color: theme.palette.primary.main,
+            backgroundColor: 'white',
+            paddingTop: 5,
+        },
     }),
 );
 
@@ -25,12 +31,16 @@ const LoginPage: React.FC<LoginPageProps> = props => {
 
     return (
         <React.Fragment>
-            <NavBarComponent />
+            <NavBarComponent className={classes.navBar} title="Telepathweet" />
             <Grid container>
                 <Grid item xs={12} md={6} className={classes.content}>
                     <Box className={classes.banner}>
                         <Typography variant="h4" color="primary">
-                            Voluptate Culpa Lorem Id Tempor Aliquip Labore
+                            Lorem Culpa animiq elit Dolorem Aliquip Voluptas
+                        </Typography>
+                        <Typography variant="subtitle2" style={{ marginTop: '20px' }}>
+                            Exercitation anim enim reprehenderit aliquip reprehenderit voluptate do
+                            dolor voluptate reprehenderit dolor aliqua eiusmod labore.
                         </Typography>
                         <button className="twitter-login-link">
                             <a href="http://localhost:5000/api/user/login">

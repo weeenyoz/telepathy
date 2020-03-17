@@ -8,12 +8,13 @@ const theme = createMuiTheme({
         secondary: { main: red[500] },
     },
     typography: {
+        fontFamily: ['futura'],
         subtitle1: {
             fontSize: 18,
         },
         subtitle2: {
             fontSize: 15,
-            color: '#696969',
+            color: '#696969cc',
         },
     },
 });

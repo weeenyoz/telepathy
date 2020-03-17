@@ -7,7 +7,7 @@ const Layout: React.FC = props => {
 
     return (
         <React.Fragment>
-            <NavBarComponent />
+            <NavBarComponent title="Telepathweet" />
             {children}
         </React.Fragment>
     );
