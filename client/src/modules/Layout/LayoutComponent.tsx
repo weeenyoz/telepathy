@@ -7,7 +7,7 @@ const Layout: React.FC = props => {
 
     return (
         <React.Fragment>
-            <NavBarComponent />
+            <NavBarComponent appTitle={{ title: 'Telepathweet', orientation: 'left' }} />
             {children}
         </React.Fragment>
     );

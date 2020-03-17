@@ -1,0 +1,17 @@
+.twitter-login-link {
+   border-radius: 5px;
+   border: 1px solid #80808052;
+   padding: 5px;
+   background: linear-gradient(0deg, rgba(143, 142, 142, 0.4990371148459384) 0%, rgba(246, 246, 246, 1) 71%, rgba(251, 251, 251, 1) 100%);
+   margin-top: 10px;
+
+   a {
+      display: flex;
+      align-items: center;
+      margin: 0 auto;
+      color: black;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13px;
+   }
+}
