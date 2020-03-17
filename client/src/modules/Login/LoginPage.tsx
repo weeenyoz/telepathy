@@ -31,7 +31,10 @@ const LoginPage: React.FC<LoginPageProps> = props => {
 
     return (
         <React.Fragment>
-            <NavBarComponent className={classes.navBar} title="Telepathweet" />
+            <NavBarComponent
+                className={classes.navBar}
+                appTitle={{ title: 'Telepathweet', orientation: 'left' }}
+            />
             <Grid container>
                 <Grid item xs={12} md={6} className={classes.content}>
                     <Box className={classes.banner}>
