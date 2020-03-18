@@ -1,5 +1,6 @@
 export interface TweetInterface {
     id: string;
+    idStr: string;
     title: string;
     url: string;
     user: TimelineUserInterface;
