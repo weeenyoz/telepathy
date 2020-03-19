@@ -41,6 +41,8 @@ const PostTweetForm: React.FC<PostTweetFormProps> = (props: PostTweetFormProps) 
                 toggleIsSubmitted(true);
                 formHandler && formHandler(true);
             }
+
+            formHandler && formHandler(false);
         } catch (error) {
             console.error(error);
         }
