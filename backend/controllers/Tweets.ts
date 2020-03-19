@@ -13,13 +13,15 @@ export const getTimeline: RequestHandler = async (req, res, next) => {
         const result = await T.get('statuses/home_timeline', { count: 5 });
 
         const timeline = (result.data as []).map((d: any) => {
-            const { id, text, entities, user } = d;
+            const { id, id_str, text, entities, user, retweet_count } = d;
             const { name, screen_name, description, url, profile_image_url } = user;
 
             return {
                 id,
+                idStr: id_str,
                 title: text,
                 url: entities.urls.length && entities.urls[0].url,
+                retweetCount: retweet_count,
                 user: {
                     name,
                     screenName: screen_name,
@@ -45,6 +47,25 @@ export const postTweet: RequestHandler = async (req, res, next) => {
     try {
         const result: any = await T.post('statuses/update', tweet);
         result && res.status(204).send();
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
+export const reTweet: RequestHandler = async (req, res, next) => {
+    const T = new Twit(TwitterConfig);
+
+    const reTweetId = req.body;
+
+    try {
+        await T.post('statuses/retweet/:id', reTweetId, (err, data, response) => {
+            if (err) {
+                next(err);
+            } else {
+                res.status(204).send();
+            }
+        });
     } catch (error) {
         console.error(error);
         next(error);

@@ -1,37 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
-import axios from 'axios';
-import { Grid } from '@material-ui/core';
+import { Grid, CardMedia } from '@material-ui/core';
 import CardComponent from '../material-components/Card/CardComponent';
 import PostTweetForm from '../Forms/PostTweetForm';
 import Timeline from '../Timeline/TimelineComponent';
 import { TweetInterface } from '../typings/Tweet';
-import { LoginResponseInterface, UserInterface } from '../typings/User';
+import useGetUser from '../hooks/useGetUser';
+import useGetTimeline from '../hooks/useGetTimeline';
+import { HomeContext, HomeContextProps } from './context';
 
 type HomeProps = RouteComponentProps;
 
 const Home: React.FC<HomeProps> = (props: HomeProps) => {
-    const [timeline, setTimeline] = useState([]);
-    const [loggedInUser, setLoggedInUser] = useState<UserInterface>();
     const [isFormSubmitted, toggleIsFormSubmitted] = useState(false);
+    const [isRetweeted, toggleIsRetweeted] = useState(false);
 
-    const geTimeline = async () => {
-        try {
-            const { data } = await axios.get(`/api/tweeter/timeline`);
-            setTimeline(data);
-        } catch (error) {
-            console.error('error in Home Component - geTimeline: ', error);
-        }
-    };
+    const user = useGetUser();
+    const { timeline, setTimeline, getTimeline } = useGetTimeline();
 
-    const getUser = async () => {
-        try {
-            const result = await axios.get('/api/user/');
-            const { user }: LoginResponseInterface = result.data;
-            setLoggedInUser(user);
-        } catch (error) {
-            console.error('error in Home Component - getUser: ', error);
-        }
+    const updateTimeline = async () => {
+        const data = await getTimeline();
+        setTimeline(data);
     };
 
     // @TODO: should be handleNotification
@@ -39,39 +28,58 @@ const Home: React.FC<HomeProps> = (props: HomeProps) => {
         toggleIsFormSubmitted(submitted);
     };
 
-    useEffect(() => {
-        getUser();
-        geTimeline();
-    }, []);
+    const handleRetweet = (isRetweeted: boolean) => {
+        toggleIsRetweeted(isRetweeted);
+    };
 
     useEffect(() => {
-        if (isFormSubmitted) {
-            geTimeline();
+        if (isFormSubmitted || isRetweeted) {
+            updateTimeline();
         }
-    }, [isFormSubmitted]);
+    }, [isFormSubmitted, isRetweeted]);
+
+    const context: HomeContextProps = {
+        user,
+        timeline,
+        handleForm,
+        handleRetweet,
+    };
 
     return (
         <React.Fragment>
-            {loggedInUser && (
-                <Grid container>
-                    <Grid item xs={12}>
-                        <CardComponent data={{ image: loggedInUser.profileImageUrl }}>
-                            <PostTweetForm formHandler={handleForm} />
-                        </CardComponent>
+            <HomeContext.Provider value={context}>
+                {user && (
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <CardComponent data={{ image: user.profileImageUrl }}>
+                                <PostTweetForm formHandler={handleForm} />
+                            </CardComponent>
+                        </Grid>
+                        <Grid item xs={12}>
+                            {timeline.length > 0 &&
+                                timeline.map((d: TweetInterface) => (
+                                    <CardComponent
+                                        key={d.id}
+                                        data={{
+                                            idStr: d.idStr,
+                                            url: d.url,
+                                            image: d.user.profileImageUrl,
+                                            retweetCount: d.retweetCount,
+                                        }}
+                                    >
+                                        <Timeline data={{ user: { ...d.user }, title: d.title }} />
+                                    </CardComponent>
+                                ))}
+                            {timeline.length === 0 && (
+                                <CardMedia
+                                    image={require('../../assets/no-data.png')}
+                                    component="img"
+                                />
+                            )}
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12}>
-                        {timeline.length > 0 &&
-                            timeline.map((d: TweetInterface) => (
-                                <CardComponent
-                                    key={d.id}
-                                    data={{ url: d.url, image: d.user.profileImageUrl }}
-                                >
-                                    <Timeline data={{ user: { ...d.user }, title: d.title }} />
-                                </CardComponent>
-                            ))}
-                    </Grid>
-                </Grid>
-            )}
+                )}
+            </HomeContext.Provider>
         </React.Fragment>
     );
 };
