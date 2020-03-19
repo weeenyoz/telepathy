@@ -18,6 +18,8 @@ const Button: React.FC<ButtonComponentProps> = (props: ButtonComponentProps) => 
 
     const { retweet } = usePostRetweet();
 
+    const styles = isRetweeted ? { color: 'green' } : { color: 'default' };
+
     const retweetHandler = async () => {
         try {
             const result = await retweet(idStr);
@@ -25,6 +27,7 @@ const Button: React.FC<ButtonComponentProps> = (props: ButtonComponentProps) => 
                 handleRetweet(true);
                 toggleIsRetweet(true);
             }
+
             handleRetweet(false);
         } catch (error) {
             console.error(error);
@@ -33,12 +36,10 @@ const Button: React.FC<ButtonComponentProps> = (props: ButtonComponentProps) => 
 
     return (
         <React.Fragment>
-            <IconButton onClick={retweetHandler}>
-                <FaRetweet />
+            <IconButton style={styles} onClick={retweetHandler}>
+                <FaRetweet style={styles} />
             </IconButton>
-            <span style={isRetweeted ? { color: 'green' } : { color: 'unset' }}>
-                {retweetCount}
-            </span>
+            <span style={styles}>{retweetCount}</span>
         </React.Fragment>
     );
 };
