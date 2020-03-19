@@ -33,10 +33,10 @@ const Button: React.FC<ButtonComponentProps> = (props: ButtonComponentProps) => 
 
     return (
         <React.Fragment>
+            <IconButton onClick={retweetHandler}>
+                <FaRetweet />
+            </IconButton>
             <span style={isRetweeted ? { color: 'green' } : { color: 'unset' }}>
-                <IconButton onClick={retweetHandler}>
-                    <FaRetweet />
-                </IconButton>
                 {retweetCount}
             </span>
         </React.Fragment>
