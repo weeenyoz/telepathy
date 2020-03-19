@@ -1,8 +1,9 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Card, CardContent, CardActions, Grid, Box } from '@material-ui/core/';
 import AvatarComponent from '../Avatar/AvatarComponent';
 import Button from '../../Button/ButtonComponent';
+import { HomeContext } from '../../Home/context';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface CardComponentProps {
-    data: { idStr?: string; url?: string; image: string };
+    data: { idStr?: string; url?: string; image: string; retweetCount?: number };
     children?: ReactNode;
 }
 
@@ -36,7 +37,9 @@ const CardComponent: React.FC<CardComponentProps> = (props: CardComponentProps) 
 
     const { data, children } = props;
 
-    const { idStr, url, image } = data;
+    const { idStr, url, image, retweetCount } = data;
+
+    const context = useContext(HomeContext);
 
     const cardActionHandler = () => {
         if (url) window.open('')?.location.replace(url);
@@ -58,7 +61,7 @@ const CardComponent: React.FC<CardComponentProps> = (props: CardComponentProps) 
                     </Grid>
                 </CardContent>
                 <CardActions className={classes.actions}>
-                    <Box className={classes.action}>{url && <Button idStr={idStr} />}</Box>
+                    <Box>{url && <Button idStr={idStr} retweetCount={retweetCount} />}</Box>
                 </CardActions>
             </Card>
         </React.Fragment>

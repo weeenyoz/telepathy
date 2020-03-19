@@ -54,7 +54,7 @@ const LoginPage: React.FC<LoginPageProps> = props => {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <CardMedia image={require('./landing.png')} component="img" />
+                    <CardMedia image={require('../../assets/landing.png')} component="img" />
                 </Grid>
             </Grid>
         </React.Fragment>

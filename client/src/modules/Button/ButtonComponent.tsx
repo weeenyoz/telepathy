@@ -1,24 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 import IconButton from '@material-ui/core/IconButton';
 import { FaRetweet } from 'react-icons/fa';
-import useGetTimeline from '../hooks/useGetTimeline';
+import { HomeContext } from '../Home/context';
 
 interface ButtonComponentProps {
     idStr?: string;
+    retweetCount?: number;
 }
 
 const Button: React.FC<ButtonComponentProps> = (props: ButtonComponentProps) => {
-    const { idStr } = props;
-    const { setTimeline, getTimeline } = useGetTimeline();
+    const { idStr, retweetCount } = props;
+
+    const { handleRetweet } = useContext(HomeContext);
 
     const retweetHandler = async () => {
         const result = await axios.post('/api/tweeter/retweet', { id: idStr });
-        result && console.log('result %%: ', result);
-        if (result.status === 204) {
-            const data = await getTimeline();
-            setTimeline(data);
-        }
+        handleRetweet(true);
     };
 
     return (
@@ -26,6 +24,7 @@ const Button: React.FC<ButtonComponentProps> = (props: ButtonComponentProps) => 
             <IconButton onClick={retweetHandler}>
                 <FaRetweet />
             </IconButton>
+            {retweetCount}
         </React.Fragment>
     );
 };

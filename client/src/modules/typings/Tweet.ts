@@ -3,6 +3,7 @@ export interface TweetInterface {
     idStr: string;
     title: string;
     url: string;
+    retweetCount: number;
     user: TimelineUserInterface;
 }
 

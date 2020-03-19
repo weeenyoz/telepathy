@@ -13,7 +13,7 @@ export const getTimeline: RequestHandler = async (req, res, next) => {
         const result = await T.get('statuses/home_timeline', { count: 5 });
 
         const timeline = (result.data as []).map((d: any) => {
-            const { id, id_str, text, entities, user, retweeted_status } = d;
+            const { id, id_str, text, entities, user, retweet_count } = d;
             const { name, screen_name, description, url, profile_image_url } = user;
 
             return {
@@ -21,13 +21,13 @@ export const getTimeline: RequestHandler = async (req, res, next) => {
                 idStr: id_str,
                 title: text,
                 url: entities.urls.length && entities.urls[0].url,
+                retweetCount: retweet_count,
                 user: {
                     name,
                     screenName: screen_name,
                     description,
                     url,
                     profileImageUrl: profile_image_url,
-                    retweetedStatus: retweeted_status,
                 },
             };
         });
@@ -60,27 +60,14 @@ export const reTweet: RequestHandler = async (req, res, next) => {
 
     try {
         await T.post('statuses/retweet/:id', reTweetId, (err, data, response) => {
-            const { id, text, entities, user, retweeted_status } = data as any;
-
-            const { name, screen_name, description, url, profile_image_url } = user;
-
-            const retweet = {
-                id,
-                title: text,
-                url: entities.urls.length && entities.urls[0].url,
-                user: {
-                    name,
-                    screenName: screen_name,
-                    description,
-                    url,
-                    profileImageUrl: profile_image_url,
-                    retweetedStatus: retweeted_status,
-                },
-            };
-
-            res.status(204).send();
+            if (err) {
+                next(err);
+            } else {
+                res.status(204).send();
+            }
         });
     } catch (error) {
-        res.send(error);
+        console.error(error);
+        next(error);
     }
 };
