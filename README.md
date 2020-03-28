@@ -1,4 +1,7 @@
 # telepathy
+
+Authentication using Twitter & Passport. Browse timelime, tweet and retweet
+
 ### Running the server
 ```
 yarn server
